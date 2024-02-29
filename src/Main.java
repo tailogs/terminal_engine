@@ -1,21 +1,48 @@
 public class Main {
     public static void main(String[] args) {
-        Engine hero = new Engine("Hero", Color.GREEN, 200, 100, 1);
-        Engine enemy = new Engine("Enemy", Color.RED, 100, 50, 1);
-        Engine.printText("==================\n");
-        hero.printlnText("Привет!");
-        enemy.printlnText("Что тебя сюда привело?");
-        hero.printlnText("Ничего такого, я просто пришел за ключом");
-        enemy.printlnText("А, ну укради его у меня");
-        hero.addItem("Вы украли 2 ключа", "Ключ", 2);
-        hero.addItem("Вы украли 3 булочки", "Булочка", 3);
-        hero.addItem("Вы украли 2 булочки", "Булочка", 2);
-        hero.addItem("Бумажка", 5);
-        hero.printInventory();
-        enemy.printInventory();
-        Engine.printText("===", 10, "\n");
-        hero.getStatistics();
-        enemy.getStatistics();
+        // Создаем экземпляр класса Engine с именем player
+        Engine engine = new Engine("Игра", Color.WHITE, 100, 50, 1);
+        Engine player = new Engine("Игрок", Color.PURPLE, 100, 50, 1);
 
+        // Выводим приветственное сообщение
+        engine.printlnText("Добро пожаловать в приключение!");
+
+        // Получаем имя главного героя
+        String input = Engine.getInput("Введите имя вашего героя:");
+        player.changeName(input);
+        engine.printlnText("Привет, " + input + "!");
+
+        // Начало игры
+        engine.printlnText("Вы находитесь в темном подземелье. Ваша цель - найти выход.");
+        engine.printlnText("Впереди вас раздваивается туннель.");
+
+        // Получаем выбор игрока
+        String choice = Engine.getInput("1. Пойти налево. 2. Пойти направо. > ");
+
+        if (choice.equals("1")) {
+            engine.printlnText("Вы сворачиваете налево и идете по туннелю.");
+            engine.printlnText("Вдруг вы видите дверь в конце туннеля.");
+
+            // Получаем выбор игрока
+            String nextChoice = Engine.getInput("1. Открыть дверь. 2. Вернуться обратно. > ");
+
+            if (nextChoice.equals("1")) {
+                engine.printlnText("Вы открываете дверь и находите сундук с сокровищами.");
+                player.addItem("Сокровища", 1);
+            } else if (nextChoice.equals("2")) {
+                engine.printlnText("Вы разворачиваетесь и возвращаетесь обратно.");
+            }
+        } else if (choice.equals("2")) {
+            engine.printlnText("Вы сворачиваете направо и продолжаете идти.");
+            engine.printlnText("Внезапно вы попадаете в ловушку и теряете часть здоровья.");
+            player.addHP(-20);
+            boolean status = player.statusLife();
+        }
+
+        // Выводим статистику игрока
+        player.getStatistics();
+
+        // Завершение игры
+        engine.printlnText("Вы достигли конца приключения. Спасибо за игру!");
     }
 }

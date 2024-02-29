@@ -1,7 +1,7 @@
 # TextRPG
 TextRPG - мини движок для текстовых игр в консоли и терминале 
 
-![image](https://github.com/tailogs/TextRPG/assets/69743960/da237857-91bc-4c14-8e67-1dfb8b80b57f)
+![image](https://github.com/tailogs/TextRPG/assets/69743960/efac8d08-3700-4635-90f6-fd88dae76e90)
 
 Для запуска скачайте один из релизов или скомпилируйте сам проект используя комманды ниже.
 
@@ -52,79 +52,103 @@ java -jar .\TextRPG.jar
 - уровень (lvl).
 
 ```java
-Engine(String playerName, Color colorText, int hp, int mp, int lvl)
+Engine(String playerName, Color colorText, int hp, int mp, int lvl);
 ```
 
 #### Метод, выводящий текст в консоль с указанным цветом и именем игрока
 
 ```java
-printlnText(String text)
+printlnText(String text);
 ```
 
 #### Статический метод, выводящий текст в консоль без перевода строки
 
 ```java
-printText(String text)
+printText(String text);
 ```
 
 #### Статический метод, выводящий текст в консоль заданное количество раз с указанным окончанием
 
 ```java
-printText(String text, int amount, String endText)
+printText(String text, int amount, String endText);
 ```
 
 #### Метод, добавляющий предмет в инвентарь с указанным именем и количеством
 
 ```java
-addItem(String itemName, int itemAmount)
+addItem(String itemName, int itemAmount);
 ```
 
 #### Метод, добавляющий предмет в инвентарь с указанным именем, количеством и выводящий текст в консоль
 
 ```java
-addItem(String text, String itemName, int itemAmount)
+addItem(String text, String itemName, int itemAmount);
 ```
 
 #### Метод, выводящий содержимое инвентаря в консоль
 
 ```java
-printInventory()
+printInventory();
 ```
 
 #### Метод, выводящий статистику игрока в консоль
 
 ```java
-getStatistics()
+getStatistics();
 ```
 
 #### Метод, увеличивающий количество очков здоровья игрока на указанное значение
 
 ```java
-addHP(int hp)
+addHP(int hp);
 ```
 
 #### Метод, увеличивающий количество очков маны игрока на указанное значение
 
 ```java
-addMP(int mp)
+addMP(int mp);
 ```
 
 #### Метод, увеличивающий количество опыта игрока на указанное значение и автоматически повышающий уровень при достижении необходимого количества опыта
 
 ```java
-addXP(int xp)
+addXP(int xp);
 ```
 
 #### Метод, устанавливающий количество очков здоровья игрока на указанное значение
 
 ```java
-setHP(int hp)
+setHP(int hp);
 ```
 
 #### Метод, устанавливающий количество очков маны игрока на указанное значение
 
 ```java
-setMP(int mp)
+setMP(int mp);
+```
+
+#### Статический метод, получающий ввод пользователя и возвращающий его как строку
+
+```java
+getInput();
+```
+
+#### Статический метод, выводящий текст и получающий ввод пользователя и возвращающий его как строку
+
+```java
+getInput(String text);
+```
+
+#### Метод, позволяющий изменить имя персонажа
+
+```java
+changeName(String name);
+```
+
+#### Метод, позволяющий узнать жив ли персонаж, обычно применяемые после метода `addHP()`. Если персонаж живой, то вернется `true`, в противном случае `false`
+
+```java
+statusLife();
 ```
 
 ## Пример кода
@@ -132,23 +156,51 @@ setMP(int mp)
 ```java
 public class Main {
     public static void main(String[] args) {
-        Engine hero = new Engine("Hero", Color.GREEN, 200, 100, 1);
-        Engine enemy = new Engine("Enemy", Color.RED, 100, 50, 1);
-        Engine.printText("==================\n");
-        hero.printlnText("Привет!");
-        enemy.printlnText("Что тебя сюда привело?");
-        hero.printlnText("Ничего такого, я просто пришел за ключом");
-        enemy.printlnText("А, ну укради его у меня");
-        hero.addItem("Вы украли 2 ключа", "Ключ", 2);
-        hero.addItem("Вы украли 3 булочки", "Булочка", 3);
-        hero.addItem("Вы украли 2 булочки", "Булочка", 2);
-        hero.addItem("Бумажка", 5);
-        hero.printInventory();
-        enemy.printInventory();
-        Engine.printText("===", 10, "\n");
-        hero.getStatistics();
-        enemy.getStatistics();
+        // Создаем экземпляр класса Engine с именем player
+        Engine engine = new Engine("Игра", Color.WHITE, 100, 50, 1);
+        Engine player = new Engine("Игрок", Color.PURPLE, 100, 50, 1);
 
+        // Выводим приветственное сообщение
+        engine.printlnText("Добро пожаловать в приключение!");
+
+        // Получаем имя главного героя
+        String input = Engine.getInput("Введите имя вашего героя:");
+        player.changeName(input);
+        engine.printlnText("Привет, " + input + "!");
+
+        // Начало игры
+        engine.printlnText("Вы находитесь в темном подземелье. Ваша цель - найти выход.");
+        engine.printlnText("Впереди вас раздваивается туннель.");
+
+        // Получаем выбор игрока
+        String choice = Engine.getInput("1. Пойти налево. 2. Пойти направо. > ");
+
+        if (choice.equals("1")) {
+            engine.printlnText("Вы сворачиваете налево и идете по туннелю.");
+            engine.printlnText("Вдруг вы видите дверь в конце туннеля.");
+
+            // Получаем выбор игрока
+            String nextChoice = Engine.getInput("1. Открыть дверь. 2. Вернуться обратно. > ");
+
+            if (nextChoice.equals("1")) {
+                engine.printlnText("Вы открываете дверь и находите сундук с сокровищами.");
+                player.addItem("Сокровища", 1);
+            } else if (nextChoice.equals("2")) {
+                engine.printlnText("Вы разворачиваетесь и возвращаетесь обратно.");
+            }
+        } else if (choice.equals("2")) {
+            engine.printlnText("Вы сворачиваете направо и продолжаете идти.");
+            engine.printlnText("Внезапно вы попадаете в ловушку и теряете часть здоровья.");
+            player.addHP(-20);
+            boolean status = player.statusLife();
+        }
+
+        // Выводим статистику игрока
+        player.getStatistics();
+
+        // Завершение игры
+        engine.printlnText("Вы достигли конца приключения. Спасибо за игру!");
     }
 }
+
 ```

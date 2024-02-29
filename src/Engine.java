@@ -1,7 +1,10 @@
+import java.util.Scanner;
+
 public class Engine {
-    private Inventory inventory = new Inventory();
+    private final static Scanner sc = new Scanner(System.in);
+    private final Inventory inventory = new Inventory();
     private String playerName;
-    private Color colorText;
+    private final Color colorText;
     private int hp;
     private int mp; // mana points
     private int lvl;
@@ -83,5 +86,23 @@ public class Engine {
 
     public void setMP(int mp) {
         this.mp = mp;
+    }
+
+    public static String getInput() {
+        System.out.print("> ");
+        return sc.nextLine();
+    }
+
+    public static String getInput(String text) {
+        System.out.print(text + " ");
+        return sc.nextLine();
+    }
+
+    public void changeName(String name) {
+        this.playerName = name;
+    }
+
+    public boolean statusLife() {
+        return !(this.hp <= 0);
     }
 }
