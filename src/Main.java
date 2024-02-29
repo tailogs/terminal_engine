@@ -1,8 +1,8 @@
 public class Main {
     public static void main(String[] args) {
-        // Создаем экземпляр класса Engine с именем player
-        Engine engine = new Engine("Игра", Color.WHITE, 100, 50, 1);
-        Engine player = new Engine("Игрок", Color.PURPLE, 100, 50, 1);
+        Engine engine = new Engine();
+        Enemy enemy = new Enemy("Слизень", Color.WHITE, 50, 20, 1);
+        Player player = new Player("Игрок", Color.PURPLE, 100, 50, 1);
 
         // Выводим приветственное сообщение
         engine.printlnText("Добро пожаловать в приключение!");
